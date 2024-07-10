@@ -19,6 +19,7 @@ dependencies:
   cloud_firestore: ^5.0.2
   carousel_slider: ^4.2.1
   flutter_osm_plugin: ^1.1.0
+  flutter_local_notifications: ^17.2.1+1
 
 dev_dependencies:
   flutter_test:
@@ -35,6 +36,12 @@ flutter:
     - assets/tips/cloud3.png
     - assets/tips/cloud4.png
     - assets/tips/cloud5.png
+    - assets/tips/w1.png
+    - assets/tips/w2.png
+    - assets/tips/w3.png
+    - assets/tips/w4.png
+    - assets/tips/w5.png
+
 
 
 

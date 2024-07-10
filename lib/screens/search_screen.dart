@@ -53,17 +53,17 @@ class _SearchScreenState extends State<SearchScreen> {
         SizedBox(height: 40),
 
         // Pick location row
-        Row(
-          children: [
-            // Choose city text field
-            Expanded(
-              child: RoundTextField(),
-            ),
-            SizedBox(width: 15),
+        // Row(
+        //   children: [
+        //     // Choose city text field
+        //     Expanded(
+        //       child: RoundTextField(),
+        //     ),
+        //     SizedBox(width: 15),
 
-            LocationIcon(),
-          ],
-        ),
+        //     LocationIcon(),
+        //   ],
+        // ),
 
         SizedBox(height: 30),
 

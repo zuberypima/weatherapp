@@ -28,7 +28,7 @@ class SafetyTips extends StatelessWidget {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => StrongWindTps()));
               },
-              child: tipspageCard('Floods', '11d.png')),
+              child: tipspageCard('Strong Wind', '11d.png')),
           tipspageCard('Hurricane', '11d.png'),
           tipspageCard('Stom', '11d.png')
         ],

@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:weather_app_tutorial/screens/rain_flood_tips.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:weather_app_tutorial/screens/safety_tips.dart';
+import 'package:weather_app_tutorial/services/notificationService.dart';
 
 import '/constants/app_colors.dart';
 import '/screens/forecast_report_screen.dart';
 import '/screens/search_screen.dart';
-import '/screens/settings_screen.dart';
 import 'weather_screen/weather_screen.dart';
 import '/services/api_helper.dart';
 
@@ -19,6 +19,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
+  @override
+  void initState() {
+    super.initState();
+    ApiHelper.getCurrentWeather();
+
+    // Initialize the plugin.
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
+      android: initializationSettingsAndroid,
+    );
+
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  }
+
   int _currentPageIndex = 0;
 
   final _screens = [
@@ -29,11 +49,11 @@ class _HomeScreenState extends State<HomeScreen> {
     // FeedsScreen(),
   ];
 
-  @override
-  void initState() {
-    ApiHelper.getCurrentWeather();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   ApiHelper.getCurrentWeather();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +68,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: MediaQuery.of(context).size.height / 5,
                 child: DrawerHeader(child: drawerProfile())),
             TextButton(onPressed: () {}, child: Text("Emergency")),
-            TextButton(onPressed: () {}, child: Text("Safety Tips"))
+            TextButton(onPressed: () {}, child: Text("Safety Tips")),
+            Divider(),
+            TextButton(
+                onPressed: () {
+                  showNotification();
+                },
+                child: Text("Notification ")),
           ],
         ),
       ),
@@ -76,6 +102,29 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _currentPageIndex = index;
     });
+  }
+
+  Future<void> showNotification() async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'your_channel_id',
+      'your_channel_name',
+      importance: Importance.max,
+      priority: Priority.high,
+      showWhen: false,
+    );
+
+    const NotificationDetails platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+    );
+
+    await FlutterLocalNotificationsPlugin().show(
+      0,
+      'Hello, World!',
+      'This is a simple notification',
+      platformChannelSpecifics,
+      payload: 'item x',
+    );
   }
 }
 
